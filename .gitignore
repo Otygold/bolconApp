@@ -1,0 +1,11 @@
+# Node modules (very large, not needed in repo)
+node_modules/
+
+# Environment variables
+.env
+
+# Mac system files (if on macOS)
+.DS_Store
+
+# Log files
+npm-debug.log
