@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+
+<h2 class="title">List of Documents for all State</h2>
+<div class="categories">
+    <% states.forEach(state => { %>
+        <div class="category-box">
+            <a href="/document/<%= state.name %>"><%= state.name %></a>
+        </div>
+    <% }); %>
+</div>
+
+
+<div class="state-box">
+    <p>Add State</p>
+    <button class="create-state-btn" onclick="openModal()">+ </button>
+</div>
+
+<!-- Modal -->
+<div id="stateModal" class="modal">
+    <div class="modal-content">
+        <h2>Create a New State</h2>
+        <form action="/createState" method="POST">
+            <input type="text" name="userName" placeholder="Enter Your Username" required><br>
+            <input type="text" name="stateName" placeholder="Enter State Name" required>
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+// This script handles the modal functionality for the state selection.
+function openModal() {
+    document.getElementById("stateModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("stateModal").style.display = "none";
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    let modal = document.getElementById("stateModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+</script>
+
+<%- include('partials/footer') %>

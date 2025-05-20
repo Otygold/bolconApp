@@ -1,0 +1,51 @@
+<%- include('partials/sidebar') %>
+
+   <section class="account-profile">
+        <h2>Profile</h2>
+        <div class="profile-container">
+            <div class="profile-menu">
+                <ul>
+                    <li class="active"><a href="/profile">Overview</a></li>
+                    <li><a href="/account">Create Profile</a></li>
+                    <!-- <li>Notifications</li> -->
+                    <li class="delete"><a href="/delete">Delete Account</a></li>
+                </ul>
+            </div>
+
+            <section class="account-overview">
+                <% if(user.fullName !== "") { %>
+                <img src="<%= user.profilePicture || '/default-profile.png' %>" alt="User Profile">
+                    <div class="account-details">
+                    <p><b>Bio:</b> <%= user.bio %></p>
+                    <h2><%= user.fullName %></h2>
+                    <p><i><b>Role: </b><%= user.role %></i></p>
+                    <p><b>Email:</b> <%= user.email %></p>
+                    <p><b>Phone:</b> <%= user.phone %></p>
+                    </div>
+                <% } else { %>
+                    <p>Please Create a profile</p>
+                <% }%>
+
+                <div class="account-buttons">
+                    <button class="edit-btn"><a href="/account">Edit</a></button>
+                    <button class="delete-btn"><a href="/delete">Delete</a></button>
+                </div>
+            </section>
+        </div>
+        <!-- <footer>
+            <p>&copy; Otycodes, 2025</p>
+        </footer> -->
+    </section>
+    </main> 
+</div>
+
+    <!-- <script>
+        document.getElementById("settings-btn").addEventListener("click", function () {
+            document.getElementById("settings-modal").style.display = "block";
+        });
+        document.querySelector(".close").addEventListener("click", function () {
+            document.getElementById("settings-modal").style.display = "none";
+        });
+    </script> -->
+<%- include('partials/footer') %>
+

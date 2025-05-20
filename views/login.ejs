@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<div class="bg">
+    <div class="box">
+       <div class="logo">
+           <img src="/css/images/icon.png" alt="Company Logo" width="50" height="50">
+           </div>
+       <h2>Login</h2>
+       <form action="/login" method="post">
+           <input type="text" placeholder="Username" name="username" required>
+           <input type="password" placeholder="Password" name="password" required>
+           <button type="submit">Login</button>
+       </form><br>
+       <div class="call-to-action">
+           <a href="/forgetPassword">Forgot Password</a>
+       </div>
+       <div class="call-to-action">
+           <span>Don't have an account?</span><a href="/register"> Sign up!</a>
+       </div>
+   </div>
+</div>
+
+<%- include('partials/footer') %>

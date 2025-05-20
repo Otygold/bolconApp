@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+
+<div class="update-progress-container">
+    <h2>Update Progress - <%= project.name %></h2>
+    
+    <form action="/project/<%= project._id %>/update-progress" method="POST">
+      <% project.mainStageList.forEach((mainStage, mainIndex) => { %>
+          <h3><%= mainStage.name %></h3>
+        <div class="main-stage">
+          <% mainStage.subStages.forEach((subStage, subIndex) => { %>
+            <div class="sub-stage">
+              <label for="progress-<%= mainIndex %>-<%= subIndex %>">
+                <%= subStage.name %> (Duration: <%= subStage.duration %>)
+              </label>
+              <input
+                type="range"
+                id="progress-<%= mainIndex %>-<%= subIndex %>"
+                name="progress[<%= mainIndex %>][<%= subIndex %>]"
+                min="0"
+                max="100"
+                value="<%= subStage.progress || 0 %>"
+                oninput="this.nextElementSibling.textContent = this.value + '% completed'">
+              <div class="progress-value"><%= subStage.progress || 0 %>% completed</div>
+            </div>
+          <% }) %>
+        </div>
+      <% }) %>
+
+      <div class="submit-btn">
+        <button type="submit">Save Progress</button>
+      </div>
+    </form>
+  </div>
+
+
+
+
+<%- include('partials/footer') %>

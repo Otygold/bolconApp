@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolcon - Project Dashboard and Documents Repository</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://kit.fontawesome.com/c8a8bf31af.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Bolcon</div>
+            <nav class="menu">
+                <ul>
+                    <li><i class="fas fa-home"></i><a href="/">Home</a></li>
+                    <li class="active"><i class="fas fa-chart-pie"></i> <a href="/dashboard ">Dashboard</a></li>
+                    <li><i class="fas fa-file-alt"></i><a href="/createState">Documents</a></li>
+                    <li><i class="fas fa-list"></i><a href="/dashboard#goal">Goals</a></li>
+                    <li><i class="fas fa-folder"></i><a href="/project">Projects</a></li>
+                    <li><i class="fas fa-user"></i><a href="/profile">Profile</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <ul>
+                    <li id="settings-link"><i class="fas fa-cog"></i>
+                        <a href="/account" style="text-decoration: none; color:inherit;">Settings</a>
+                    </li>
+                    <li><i class="fas fa-sign-out-alt"></i><a href="/logout" style="text-decoration: none; color:inherit;">Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="main-content" id="container-dark-mode">
+            <header>
+                <div class="search-bar">
+                    <%const now = new Date();%>
+                    <%const options = { day: '2-digit', month: 'long', year: 'numeric' };%>
+                    <%const currentDate = now.toLocaleDateString('en-US', options);%>
+                    <span><%=currentDate%></span>
+                </div>
+                <div class="profile">
+                    <span class="username"><%= user.username %></span>
+                    <img src="<%= user.profilePicture || '/default-profile.png' %>" alt="Profile">
+                </div>
+            </header>

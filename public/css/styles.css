@@ -1,0 +1,549 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    width: 100%;
+    height: 100%;
+}
+
+body.dark-mode {
+    background-color: #444;
+    color: white;
+    transition: background 0.3s, color 0.3s;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #222;
+    color: #fff;
+}
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+.navbar .links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Home-Page Styles */
+.container {
+    display: flex;
+    padding: 150px 0 72px 10%;
+    align-items: center;
+    overflow: hidden;
+    height: calc(100% - 50px);
+    background: url(./images/backgroundImg.jpg);
+    background-position: top center;
+    background-size: center;
+    position: relative;
+    animation: fadeIn 1s ease-in-out;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+.content {
+    position: relative;
+    text-align: left;
+    color: #fff;
+    z-index: 1;
+    padding: 20px;
+}
+.content h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+.content p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.content .btn {
+    padding: 10px 20px;
+    background-color: #489710;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+.content .btn:hover{
+    background-color: #333;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/* Login and Signup Styles  */
+.bg {
+    background-color: #f4f4f4;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+.dark-mode .bg {
+    background-color: #444;
+}
+.box{
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    margin: 50px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 30%;
+    height: fit-content;
+}
+.dark-mode .box {
+    background-color: #333;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+.box h2 {
+    margin-bottom: 20px;
+}
+.box input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.box input:focus {
+    border-color: #11d268;
+    outline: none;
+}
+.box button {
+    width: 80%;
+    padding: 10px; 
+    background-color: #5cb85c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.box button:hover {
+    background-color: #4cae4c;
+}
+.box .call-to-action  {
+    margin-top: 10px;
+}
+.box .call-to-action  a {
+    color: #5cb85c;
+    text-decoration: none;
+}
+.dark-mode .box .call-to-action  a {
+    color: #fff;
+}
+.box .call-to-action a:hover {
+    text-decoration: underline;
+}
+.dark-mode .call-to-action span{
+     color: #ccc;
+}
+/* Document Page Styles. */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#search-input {
+    width: 50%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 24px;
+    outline: none;
+    box-sizing: border-box;
+    background-color: #f1f3f4;
+}
+#search-btn {
+    background-color: transparent;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+#search-btn i {
+    font-size: 20px;
+    color: #5f6368;
+}
+
+#search-input:focus {
+    background-color: white;
+    border: 1px solid #1a5647;
+    border-color: #11d268;
+    box-shadow: 0 0 5px rgba(135, 236, 145, 0.1);
+    }
+
+#search-btn:hover i {
+    color: #11d268;
+}
+
+.dark-mode .search-bar,
+.dark-mode .state-box{
+    background-color: #333;
+    }
+
+.state-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        margin: 20px auto;
+        padding: 10px 20px;
+        border: 2px dashed #333;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+.dark-mode .state-box{
+    border: 2px dashed #ccc;
+}
+.create-state-btn {
+        text-decoration: none;
+        color: #fff;
+        background-color: #28a745;
+        padding:  4px 15px;
+        width: fit-content;
+        border-radius: 4px;
+        font-size: 2rem;
+        margin-left: 10px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+.create-state-btn:hover {
+        background-color: #1e7e34;
+    }
+.title{
+        margin-left: 3.5rem;
+        text-transform: capitalize;
+    }
+.categories{
+        display: flex;
+        flex-wrap: wrap;
+        padding : 40px 60px;
+        gap: 1rem;
+    }
+.category-box {
+        flex: 1 1 calc(33.333% - 1rem);
+        background-color: #f0f0f0;
+        padding: 1rem 0.5rem;
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        cursor: pointer;
+    }
+.category-box a, .categories a{
+        text-decoration: none;
+    }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.dark-mode .modal{
+    background-color: rgba(0, 0, 0, 0.9);
+}
+.modal-content {
+    background-color: #F5F7F8;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 25%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.2);
+}
+.dark-mode .modal-content{
+    background-color: #222;
+}
+.modal input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #45474B;
+    color: white;
+}
+.dark-mode .modal input{
+    background-color: #333;
+    color: white;
+    border: 1px solid #ccc;
+}
+.modal button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+.submit-btn {
+    background-color: #28a745;
+}
+.submit-btn:hover {
+    background-color: #1e7e34;
+}
+.cancel-btn {
+    background-color: #666;
+    color: white;
+}
+.cancel-btn:hover {
+    background-color: #555;
+}
+.document-list {
+    margin: 1rem 0;
+    padding: 0 60px;
+}
+.document-item {
+    list-style: none;
+    margin-bottom: 10px;
+}
+    
+
+ /* Document Category Page Styles. */
+.file-item {
+    margin-left: 3rem;
+  }
+.file-item a{
+    text-decoration: none;
+  }
+  
+.file-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 15px 45px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.dark-mode .file-table {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    box-shadow: 0 0 5px rgba(255,255,255,0.1);
+}
+.file-table thead {
+    background-color: #f5f5f5;
+}
+.dark-mode .file-table thead {
+    background-color: #444;
+}
+.file-table th, .file-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.file-table tr:hover {
+    background-color: #f9f9f9;
+}
+.dark-mode .file-table tr:hover {
+    background-color: #555;
+}
+.file-table th {
+    font-weight: 600;
+}
+.file-table a {
+    text-decoration: none;
+    margin: 0 4px;
+}
+.file-table .viewDoc{
+    color: #007BFF;
+}
+.file-table .deleteDoc{
+    color: red;
+}
+
+.file-table a:hover {
+    text-decoration: underline;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a,
+.pagination strong {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.pagination a:hover {
+    background-color: #e0e0e0;
+}
+
+.pagination strong {
+    background-color: #007BFF;
+    color: white;
+    border-color: #007BFF;
+}
+
+
+
+
+/* Upload Button */
+.open-modal-btn {
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 0 15px 3.5rem;
+}
+.open-modal-btn:hover {
+    background: #218838;
+}
+
+/* Upload Form */
+.input-file-name, .file-input{
+    width: 80%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.upload-btn {
+    background: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.upload-btn:hover {
+    background: #0056b3;
+}
+.close-btn{
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: red;
+    padding: 0 5px;
+    border-radius: 4px;
+    color: white;
+}
+.close-btn:hover {
+    background-color: rgb(146, 63, 63);
+}
+
+/* Back Link */
+.back-link {
+    display: block;
+    margin: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+.dark-mode .back-link {
+    color: #fff;
+}
+.back-link:hover {
+    color: #007bff;
+}
+
+/* Track Project Page  */
+.update-progress-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px;
+  }
+
+  .update-progress-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  .update-progress-container .main-stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; /* Space between boxes */
+    margin-bottom: 40px;
+  }
+
+  .update-progress-container .sub-stage {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+  }
+ .dark-mode  .update-progress-container .sub-stage  {
+    background-color: #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+ .dark-mode .sub-stage, .dark-mode .update-progress-container h2 {
+    color: #fff;
+  }
+  .update-progress-container .sub-stage label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .update-progress-container .sub-stage input[type="range"] {
+    width: 100%;
+    margin: 5px 0 15px;
+  }
+
+  .update-progress-container .sub-stage .progress-value {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  .dark-mode .update-progress-container .sub-stage .progress-value {
+    color: #ccc;
+  }
+
+  .update-progress-container .submit-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .update-progress-container .submit-btn button {
+    background-color: inherit;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }

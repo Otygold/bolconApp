@@ -1,0 +1,193 @@
+<%- include('partials/sidebar') %>
+
+
+
+<h2>Create Project</h2>
+
+<div class="project-container">
+  <!-- Project Name -->
+  <div class="project-box">
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName" placeholder="Enter project name">
+  </div>
+
+  <!-- Project Location -->
+  <div class="project-box">
+    <label for="projectLocation">Location:</label>
+    <input type="text" id="projectLocation" placeholder="Enter project location">
+  </div>
+
+  <!-- Main Stages -->
+  <div class="project-box stage-box">
+    <label for="mainStageInput">Main Stages:</label>
+    <div id="mainStageList" class="stage-list"></div>
+
+    <div class="stage-input-group">
+      <input type="text" id="mainStageInput" placeholder="Type a stage name">
+      <button type="button" onclick="addMainStage()">Add Stage</button>
+    </div>
+  </div>
+
+  <!-- Initialize Button -->
+  <div class="initiate-project">
+    <button onclick="initializeProject()">Initialize Project</button>
+  </div>
+</div>
+
+<!-- Sub-stage containers dynamically generated here -->
+<div id="subStageContainers"></div>
+
+<!-- Project Actions -->
+<div class="project-actions">
+  <button onclick="saveProject()">Save Project</button>
+  <button class="project-action-delete" onclick="resetForm()">Delete Project</button>
+</div>
+
+<script>
+  let mainStages = [];
+  let subStagesMap = {}; // { 'Inception': [ { name, duration }, ... ] }
+
+  function addMainStage() {
+    const input = document.getElementById('mainStageInput');
+    const value = input.value.trim();
+    if (value && !mainStages.includes(value)) {
+      mainStages.push(value);
+      displayMainStages();
+      input.value = '';
+    }
+  }
+
+  function displayMainStages() {
+    const container = document.getElementById('mainStageList');
+    container.innerHTML = '';
+    mainStages.forEach(stage => {
+      const item = document.createElement('span');
+      item.classList.add('stage-item');
+      item.innerHTML = `${stage} <i class="fa fa-close" onclick="removeMainStage('${stage}')"></i>`;
+      container.appendChild(item);
+    });
+  }
+
+  function removeMainStage(stage) {
+    mainStages = mainStages.filter(s => s !== stage);
+    delete subStagesMap[stage];
+    displayMainStages();
+    initializeProject(); // Refresh sub-stage containers
+  }
+
+  function initializeProject() {
+    const container = document.getElementById('subStageContainers');
+    container.innerHTML = '';
+    mainStages.forEach(stage => {
+      subStagesMap[stage] = subStagesMap[stage] || [];
+
+      const box = document.createElement('div');
+      box.className = 'sub-stage-container';
+
+      box.innerHTML = `
+        <div class="sub-stage-box">
+          <div class="sub-stage-title"><h3>${stage}</h3></div>
+          
+          <div class="sub-stage-level-box">
+                <div class="sub-stage-form">
+                    <label>Sub Level Name:</label>
+                    <input type="text" id="name-${stage}" placeholder="Enter a sub-level name">
+                    <label>Sub Level Duration:</label>
+                    <input type="text" id="duration-${stage}" placeholder="Enter its duration">
+                    
+                    <div class="sub-stage-btn">
+                    <button type="button" onclick="addSubLevel('${stage}')">Add Sub Level</button>
+                    <button type="button" onclick="previewSubLevels('${stage}')">Preview</button>
+                    </div>
+                </div>
+          </div>
+        </div>
+
+        <div class="sub-stage-box preview-box" id="preview-${stage}">
+          <div class="sub-stage-title"><h3>${stage} Preview</h3></div>
+          <div class="preview-sub-level">
+             <div class="preview-each-sub-level"></div>
+            </div>
+        </div>
+      `;
+
+      container.appendChild(box);
+    });
+  }
+
+  function addSubLevel(stage) {
+    const name = document.getElementById(`name-${stage}`).value.trim();
+    const duration = document.getElementById(`duration-${stage}`).value.trim();
+    if (name && duration) {
+      subStagesMap[stage].push({ name, duration });
+      document.getElementById(`name-${stage}`).value = '';
+      document.getElementById(`duration-${stage}`).value = '';
+    }
+  }
+
+  function previewSubLevels(stage) {
+    const previewBox = document.querySelector(`#preview-${stage} .preview-sub-level .preview-each-sub-level`);
+    previewBox.innerHTML = '';
+    subStagesMap[stage].forEach((item, i) => {
+      const row = document.createElement('div');
+      row.classList.add('sub-stages-level');
+      row.innerHTML = `
+        <div class="sub-stage-name">${item.name}</div>
+        <div class="sub-stage-duration">${item.duration}</div>
+        <i class="fa fa-trash" onclick="removeSubStage('${stage}', ${i})"></i>
+      `;
+      previewBox.appendChild(row);
+    });
+  }
+
+  function removeSubStage(stage, index) {
+    subStagesMap[stage].splice(index, 1);
+    previewSubLevels(stage);
+  }
+
+  function saveProject() {
+    const name = document.getElementById('projectName').value.trim();
+    const location = document.getElementById('projectLocation').value.trim();
+
+    if (!name || !location || mainStages.length === 0) {
+      alert('Please fill in all fields and add at least one main stage.');
+      return;
+    }
+
+    const data = {
+      name,
+      location,
+      mainStageList: mainStages.map(stage => ({
+        name: stage,
+        subStages: subStagesMap[stage] || []
+      }))
+    };
+
+    fetch('/saveProject', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if (res.ok) {
+        alert('Project saved successfully! Go to the Dashboard to view.');
+        resetForm();
+        window.location.href = '/project'; // Redirect to dashboard
+      } else {
+        alert('Error saving project.');
+      }
+    });
+  }
+
+  function resetForm() {
+    document.getElementById('projectName').value = '';
+    document.getElementById('projectLocation').value = '';
+    mainStages = [];
+    subStagesMap = {};
+    displayMainStages();
+    document.getElementById('subStageContainers').innerHTML = '';
+  }
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<h2 class="title">📂Documents for <%= state.name %> State.</h2>
+
+<div class="categories">
+    <a href="/document/<%= state.name %>/correspondence" class="category-box"><i class="fas fa-envelope"></i> Correspondence</a>
+    <a href="/document/<%= state.name %>/drawings" class="category-box"><i class="fas fa-pencil-ruler"></i> Drawings</a>
+    <a href="/document/<%= state.name %>/proposals" class="category-box"><i class="fas fa-file-alt"></i> Proposals</a>
+    <a href="/document/<%= state.name %>/reports" class="category-box"><i class="fas fa-chart-line"></i> Reports</a>
+</div>
+
+
+<h3 class="title">Recent uploads</h3>
+<ul class="document-list">
+    <% recentFiles.forEach(file => { %>
+        <li class="document-item">
+            <span ><%= file.name %></span>
+        </li>
+    <% }); %>
+</ul>
+
+<a href="/createState%>" class="back-link">
+    <i class="fas fa-arrow-left"></i> Back to List of States.
+</a>
+<%- include('partials/footer') %>
+
+
+
+
+    
+   
+
+  

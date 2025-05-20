@@ -1,0 +1,145 @@
+<%- include('partials/sidebar') %>
+            
+            <section class="account-settings">
+                <h2>Settings</h2>
+                <div class="settings-container">
+                    <div class="settings-menu">
+                        <ul>
+                            <li class="active"> <a href="/profile">Overview</a></li>
+                            <li><a href="/account">Settings</a></li>
+                            <li><a href="#notify-ection">Notifications</a></li>
+                            <li class="delete"><a href="/delete">Delete Account</a></li>
+                        </ul>
+                    </div>
+                    <div class="settings-content">
+                        <h3>Create Profile</h3>
+                        <p>Update your general account information.</p>
+                        <form action="/account" method="POST" enctype="multipart/form-data">
+                            <label>Profile Picture</label>
+                            <input type="file" name="profilePicture">
+                            <label>Full Name</label>
+                            <input type="text" name="fullName"  placeholder="Enter your name" value="<%= user.fullName %>">
+                            <label>Role/Position</label>
+                            <input type="text" name="role"  placeholder="Enter your role in the company value"<%= user.role %>">
+                            <label>Phone number</label>
+                            <input type="text" name="phone" placeholder="Enter your phone number" value="<%= user.phone %>">
+                            <label>Company E-mail</label>
+                            <input type="email" name="email" placeholder="Enter your company email" value="<%= user.email %>">
+                            <label>Bio</label>
+                            <textarea name="bio" placeholder="Write Something about yourself "><%= user.bio %></textarea>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+
+        <div class="account-settings switch-holder" id="notify-ection">
+          <div class="change-mode notifications-section">
+                <div class="change-mode-content notification-item">
+                    <h3>Switch Mode</h3>
+                    <label class="notification-toggle">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <p>Dark Mode</p>
+                </div>
+            </div>
+            
+            <div class="notifications-section">
+                <h3>Manage your notification settings</h3>
+                <div class="notification-item">
+                    <span>Email notifications</span>
+                    <label class="notification-toggle">
+                        <input type="checkbox" class="toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="notification-item">
+                    <span>SMS notifications</span>
+                    <label class="notification-toggle">
+                        <input type="checkbox" class="toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="notification-item">
+                    <span>Push notifications</span>
+                    <label class="notification-toggle">
+                        <input type="checkbox" id="pushToggle" class="toggle" <%= user.notifications.push ? 'checked' : '' %>>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+                <p>&copy; Otycodes</p>
+        </footer>
+        </main>
+       
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js";
+      
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeVVGrbHGAqyuhCsv7al0v9gxGdoA5GLc",
+            authDomain: "bolconappnotifications.firebaseapp.com",
+            projectId: "bolconappnotifications",
+            storageBucket: "bolconappnotifications.firebasestorage.app",
+            messagingSenderId: "310868056580",
+            appId: "1:310868056580:web:68a9e96fa672656de8b351",
+            measurementId: "G-K9N3Z43EDG"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+      
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then((registration) => {
+            // Use the registered service worker to get the token
+            return getToken(messaging, {
+              vapidKey: "BLg7o1gCSbOJKNFH6-UX-fdivmqiZPcnmkZPySBpYWhgzVXHqzD0_YDtkgWA9B_H0v1D90J8OhKnyXN7uE6u70c",
+              serviceWorkerRegistration: registration
+            });
+          })
+          .then((token) => {
+            console.log("✅ Token received:", token);
+            // Send token to server
+            fetch("/save-token", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token })
+            });
+          })
+          .catch((err) => {
+            console.error("🚫 Error getting token", err);
+          });
+
+
+//  Fetch the current push notification setting
+      document.getElementById('pushToggle').addEventListener('change', async function () {
+      const isEnabled = this.checked;
+
+      try {
+        const res = await fetch('/account/push-notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ push: isEnabled })
+        });
+
+        const result = await res.json();
+        console.log(result.message);
+      } catch (err) {
+        console.error('Failed to update push setting:', err);
+      }
+    });
+
+      
+    </script>
+      
+<%- include('partials/footer') %>
+
+

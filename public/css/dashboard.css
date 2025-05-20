@@ -1,0 +1,775 @@
+/* General Styles */
+body {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: black;
+}
+
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #333;
+    color: white;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 20px;
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+.dark-mode .sidebar {
+    background: #000;
+    box-shadow: 0 2px 5px rgb(255, 255, 255);
+}
+.sidebar-bottom {
+    margin: auto 0 10px 0;
+    padding: 20px 0;
+    border-top: 2px solid rgba(5, 3, 3, 0.2);
+    }
+.dark-mode .sidebar-bottom{
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    }
+.sidebar-bottom ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+
+.sidebar-bottom li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+.sidebar-bottom li:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+.sidebar-bottom i {
+        font-size: 18px;
+    }
+
+.modal{
+        display: none;
+        position: fixed;
+        bottom: -3%;
+        left: 12%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        width: fit-content;
+        height: fit-content;
+        text-align: center;
+        z-index: 1000;
+    }
+.modal-content{
+        position: relative;
+        padding: 20px 30px;
+    }
+.title{
+        margin-right: 5px;
+        font-weight: 200;
+        font-size: 15px;
+    }
+.close-settings{
+        position: absolute;
+        top: -.5px;
+        left: 50px;
+        color: red;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 300;
+    }
+.modal-option{
+        font-weight: 200;
+        font-size: 15px;
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+    }
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.menu ul li a{
+    text-decoration: none;
+    color: inherit;
+}
+.menu ul li.active, .menu ul li:hover {
+    background: #e0e0e0;
+    border-radius: 5px;
+}
+.dark-mode .menu ul li.active, .dark-mode .menu ul li:hover{
+    background: #444;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    width: 75%;
+    height: 100vh;
+    margin-left: 25%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Metrics Page  */
+.metrics {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+}
+.dark-mode .card, .dark-mode .goals, .dark-mode .performance  {
+    background: #000;
+    box-shadow: 0 2px 5px rgb(255, 255, 255);
+}
+.card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #3498db;
+}
+
+/* Performance Chart */
+.performance {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.selector-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+#projectSelector {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    min-width: 250px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+.project-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    width: 40%;
+  }
+.project-card h3 {
+    margin: 0 0 10px;
+  }
+.project-card button {
+    margin-top: 10px;
+    padding: 6px 12px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+.project-card .delete-project-btn {
+    background-color: #dc3545;
+  }
+.project-card .delete-project-btn:hover {
+    background-color: #c82333;
+  }
+.chart-container {
+    max-width: 900px;
+  }
+
+/* Goals Chart  */
+.goals {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.goal-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  .goal-box button {
+    margin-right: 5px;
+    padding: 4px 8px;
+  }
+  .goal-box .delete-goal{
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .goal-box .delete-goal:hover {
+    background-color: #c82333;
+  }
+.goals h2 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.goal-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.dark-mode .goal-modal {
+    background: #092635;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+    /* color: white; */
+}
+.goal-modal-content {
+    position: relative;
+}
+.goal-modal input {
+    width: 80%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.goal-modal input:focus{
+    border-color: #3498db;
+    outline:none ;
+}
+.goal-modal button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.goal-modal button:hover, .close-modal:hover, .add-goal-btn:hover, .project-card button:hover {
+    background-color: #0056b3;
+}
+.close-modal, .add-goal-btn{
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: #007bff;
+    padding: 0 5px;
+    border-radius: 4px;
+    color: white;
+}
+.add-goal-btn{
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+}
+
+/* Account Settings and Profile related Page */
+.account-settings, .account-profile {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.dark-mode .account-settings,
+.dark-mode .account-profile {
+    background: #000;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+
+}
+.settings-container, .profile-container, .switch-holder{
+    display: flex;
+    gap: 20px;
+}
+.dark-mode .settings-content,
+.dark-mode .account-overview{
+    background: #222;
+    box-shadow: 0 2px 5px rgb(255, 255, 255);
+}
+.settings-menu, .profile-menu {
+    width: 200px;
+    background: #eee;
+    padding: 10px;
+    border-radius: 5px;
+}
+.dark-mode .notifications-section, 
+.dark-mode .settings-menu,
+.dark-mode .profile-menu {
+    background: #444;
+    box-shadow: 0 2px 5px  rgb(82, 81, 81);
+}
+.settings-menu ul, .profile-menu ul{
+    list-style: none;
+    padding: 0;
+}
+.settings-menu ul li, .profile-menu ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+.settings-menu ul li a, .profile-menu ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+.settings-menu ul .delete, .profile-menu ul .delete {
+    color: red;
+    font-weight: bold;
+}
+
+/* Account - Settings Distinct Styles */
+.settings-content {
+    flex-grow: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.settings-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.settings-content form label {
+    font-weight: bold;
+}
+.settings-content form input,
+.settings-content form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.settings-content form button {
+    background: #ffcc00;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Account - Notifications Section */
+.notifications-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    width: 70%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.notifications-section h3 {
+    margin-bottom: 10px;
+}
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+.change-mode{
+    width: 30%;
+}
+.change-mode-content{
+    flex-direction: column;
+    
+}
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+/* Notification -Toggle Switch */
+.notification-toggle {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+.notification-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+.change-mode-content input:checked + .slider {
+    background-color: #333;
+}
+input:checked + .slider {
+    background-color: #ffcc00;
+}
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
+/* Profile Distinct Styles */
+.account-overview {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 70%;
+}
+.account-overview img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.account-details {
+    flex-grow: 1;
+}
+.account-details h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+.account-details p {
+    margin: 20pxpx 10px;
+    color: #555;
+}
+.account-buttons {
+    display: flex;
+    gap: 10px;
+}
+.account-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.account-buttons .edit-btn {
+    background: #007bff;
+    color: white;
+}
+.account-buttons .delete-btn {
+    background: #dc3545;
+    color: white;
+}
+
+/* Project-Page Distinct Styles */
+.project-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between boxes */
+    margin: 0 auto;
+    padding: 30px 20px 10px 20px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.project-box{
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: fit-content;
+}
+.dark-mode .project-box, .dark-mode .sub-stage-box{
+    background: #000;
+    box-shadow: 0 2px 5px rgb(255, 255, 255);
+}
+.dark-mode .sub-stage-form{
+    color: #fff;
+}
+.stage-box {
+    grid-column: span 2; /* Span both columns */
+}
+
+.project-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.project-box input {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.stage-list {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.stage-list .stage-item {
+    background-color: #98e5aa;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.stage-item i {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.stage-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.stage-input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.stage-input-group button, .initiate-project button{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.stage-input-group button:hover, .initiate-project button:hover {
+    background-color: #387d47;
+}
+.initiate-project{
+    display: flex;
+    width: fit-content;
+}
+.initiate-project button{
+    padding: 12px 14px;
+    font-size: 16px;
+}
+
+.sub-stage-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 20px 20px;
+    gap: 30px;
+    border-bottom:1px solid #ccc ; 
+}
+.sub-stage-box{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: fit-content;
+    margin-top: 20px;
+    width: 50%;
+}
+.preview-box .preview-sub-level{
+    max-height: 225px;
+    overflow-y: auto;
+}
+.sub-stage-title{
+    padding:0 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #28a745;
+}
+.sub-stage-title h3{
+    color: white;
+    font-size: 18px;
+}
+.sub-stage-title, .sub-stages-level{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.sub-stage-level-box, .preview-each-sub-level{
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.sub-stage-form  {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sub-stage-form label {
+    font-weight: bold;
+    color: #333;
+}
+.sub-stage-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.sub-stage-form .sub-stage-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.sub-stage-form button, .project-actions button{
+    background-color: #28a745;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    width: 50%;
+    transition: background-color 0.3s ease;
+}
+.sub-stage-form button:hover, .project-actions button:hover {
+    background-color: #218838;
+}
+.sub-stages-level{
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+.project-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    gap: 10px;
+    margin: 20px auto;
+}
+.project-actions button{
+    padding: 12px 14px;
+    font-size: 16px;
+    width: 100%;
+}
+.project-actions .project-action-delete{
+    background-color: #dc3545;
+}
+.project-actions .project-action-delete:hover{
+    background-color: #780a15;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer{
+    font-size: 10px;
+    font-weight: 100;
+    text-align: center;
+}

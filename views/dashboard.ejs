@@ -1,0 +1,341 @@
+
+<%- include('partials/sidebar') %>
+            <section class="greeting">
+                <h1>Hello, <%=user.username%></h1>
+                <p>Here's a summary of your project progress.</p>
+            </section>
+            
+            <section class="metrics">
+                <div class="card">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Completed</span>
+                    <h2><%= completed %></h2>
+                </div>
+                <div class="card">
+                    <i class="fas fa-sync-alt"></i> 
+                    <span>Ongoing</span>
+                    <h2><%= ongoing %></h2>
+                </div>
+                <div class="card">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>Pending</span>
+                    <h2><%= pending %></h2>
+                </div>
+                <div class="card">
+                    <i class="fas fa-clock"></i>
+                    <span>Time</span>
+                    <h2 id="current-time"></h2>
+                </div>
+            </section>
+        
+            
+
+        <section class="performance" id="task">
+            <h3>Project Overview</h3>
+
+            <div class="selector-container">
+            <label for="projectSelector">View Project:</label>
+            <select id="projectSelector">
+                <option value="">-- Select a Project --</option>
+            </select>
+            </div>
+
+            <div id="selectedProjectContainer" style="display: none;">
+            <div class="project-card" id="projectCard"></div>
+
+            <div class="chart-container" style="margin-top: 30px;">
+                <canvas id="barChart" width="800" height="400"></canvas>
+            </div>
+            </div>
+
+        </section>
+
+
+           <section class="goals" id="goal">
+            <button class="add-goal-btn" id="openGoalModal">
+                <i class="fas fa-plus"></i> Update
+            </button>
+                <h2>Goals</h2>
+                <p> <strong>Goal-Title</strong> / <i>Deadline</i></p>
+                <div id="goalListContainer">
+                  <% if (goals && goals.length > 0) { %>
+                    <% goals.forEach(goal => { %>
+                      <div class="goal-box" data-id="<%= goal._id %>">
+                        <strong><%= goal.title %></strong>
+                        <i>Deadline: <%= new Date(goal.deadline).toDateString() %></i>
+                        <button class="delete-goal" data-id="<%= goal._id %>">Delete</button>
+                      </div>
+                    <% }) %>
+                  <% } else { %>
+                    <p>No goals yet. Add one above!</p>
+                  <% } %>
+                </div>
+                
+                <!-- <ul>
+                    <li class="goal-item">
+                        <span class="goal-title"><b>Title</b></span>
+                        <span class="goal-deadline"><b>Deadline</b></span>
+                        <span class="goal-date"><b>Date</b></span>
+                    </li>
+                    
+                        <% if (goals.length === 0) { %>
+                            <li>No goals set yet.</li>
+                        <% } else { %>
+                          <% goals.forEach((goal, index) => { %>
+                            <li>
+                              <strong><%= index + 1 %>. <%= goal.title %></strong> — 
+                              Deadline: <%= goal.deadline.toDateString() %>
+                        
+                              <form action="/goals/<%= goal._id %>?_method=DELETE" method="POST" style="display:inline;">
+                                <button type="submit" class="fa fa-trash"></button>
+                              </form>
+                            </li>
+                          <% }) %>
+                        <% } %>
+            </ul>  -->
+
+
+              <!-- Goal Modal -->
+              <div id="goalModal" class="goal-modal">
+                <div class="goal-modal-content">
+                  <span class="close close-modal">&times;</span>
+                    <h2>Add a New Goal</h2>
+                  <form id="goalForm">
+                    <input type="text" name="title" placeholder="Goal title" required /><br>
+                    <label for="goal-deadline">Set Deadline</label>
+                    <input type="date" name="deadline" required />
+                    <button type="submit">Save Goal</button>
+                  </form>
+                </div>
+              </div>
+
+
+            <!-- <div id="goalModal" class="goal-modal">
+                <div class="goal-modal-content">
+                    
+                    <form action="/add-goal" method="post">
+                      <label for="goal-title">What's the goal?</label>
+                        <input type="text" id="goalInput" placeholder="Enter your goal title..." name="goal-title"><br>
+                        <label for="goal-deadline">Set Deadline</label>
+                        <input type="date" id="goalInput" placeholder="Enter the deadline..." name="goal-deadline">
+                        <label for="goal-date">Today's Date</label>
+                        <input type="date" id="goalInput" name="goal-date">
+                        <button id="addGoal" type="submit">Add Goal</button>
+                    </form>
+                </div>
+            </div> -->
+            </section>
+            
+            <footer>
+                <p>&copy; Otycodes, 2025</p>
+            </footer>            
+        </main>
+    </div>
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+function updateTime() {
+    const now = new Date();
+    const options = { hour: '2-digit', minute: '2-digit' };
+    const timeString = now.toLocaleTimeString([], options);
+    document.getElementById('current-time').textContent = timeString;
+  }
+
+  setInterval(updateTime, 1000);
+  updateTime(); // Initial call to set the time immediately
+    
+
+let barChartInstance;
+let allProjects = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/api/projects')
+    .then(res => res.json())
+    .then(projects => {
+      allProjects = projects.reverse(); // latest first
+      populateSelector(allProjects);
+    })
+    .catch(err => console.error('Error loading projects:', err));
+
+  document.getElementById('projectSelector').addEventListener('change', e => {
+    const selectedId = e.target.value;
+    const selected = allProjects.find(p => p._id === selectedId);
+
+    if (selected) {
+      renderProjectCard(selected);
+      renderBarChart(selected);
+      document.getElementById('selectedProjectContainer').style.display = 'block';
+    } else {
+      document.getElementById('selectedProjectContainer').style.display = 'none';
+    }
+  });
+});
+
+function populateSelector(projects) {
+  const selector = document.getElementById('projectSelector');
+  projects.forEach(project => {
+    const option = document.createElement('option');
+    option.value = project._id;
+    option.text = `${project.name} (${project.location})`;
+    selector.appendChild(option);
+  });
+}
+
+function renderProjectCard(project) {
+  const container = document.getElementById('projectCard');
+  const progress = calculateProjectProgress(project);
+
+  container.innerHTML = `
+    <h3>${project.name}</h3>
+    <p><strong>Location:</strong> ${project.location}</p>
+    <p><strong>Overall Progress:</strong> ${progress}%</p>
+    <button onclick="location.href='/project/${project._id}/update-progress'">Update Progress</button>
+    <form method="POST" action="/project/${project._id}/delete" onsubmit="return confirm('Are you sure you want to delete this project?');" style="display:inline;">
+      <button type="submit" class="delete-project-btn">Delete Project</button>
+    </form>
+  `;
+}
+
+function calculateProjectProgress(project) {
+  const mainStages = project.mainStageList || [];
+  let total = 0, filled = 0;
+
+  mainStages.forEach(ms => {
+    ms.subStages.forEach(sub => {
+      total += 100;
+      filled += Number(sub.progress) || 0;
+    });
+  });
+
+  return total === 0 ? 0 : Math.round((filled / total) * 100);
+}
+
+function renderBarChart(project) {
+  const labels = [];
+  const data = [];
+
+  project.mainStageList.forEach(stage => {
+    const subs = stage.subStages;
+    const progress = subs.length === 0 ? 0 : Math.round(
+      subs.reduce((sum, s) => sum + (Number(s.progress) || 0), 0) / subs.length
+    );
+    labels.push(stage.name);
+    data.push(progress);
+  });
+
+  if (barChartInstance) barChartInstance.destroy();
+
+  barChartInstance = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Main Stage Progress (%)',
+        data: data,
+        backgroundColor: '#4a90e2'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true, max: 100 }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Progress per Main Stage'
+        }
+      }
+    }
+  });
+}
+
+
+
+
+//Function to handle the modal for adding goals
+
+        // Modal functionality for adding goals
+
+        const modal = document.getElementById("goalModal");
+        const openModal = document.getElementById("openGoalModal");
+        const closeModal = document.querySelector(".close-modal");
+      
+
+        // Open modal
+        openModal.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
+
+        // Close modal
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Add goal dynamically
+       const goalForm = document.getElementById("goalForm");
+       const goalListContainer = document.getElementById("goalListContainer");
+
+       goalForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+
+       const formData = new FormData(goalForm);
+       const title = formData.get("title");
+       const deadline = formData.get("deadline");
+
+       try {
+         const res = await fetch("/goals", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ title, deadline }),
+       });
+
+      const savedGoal = await res.json();
+
+     // Add new goal to the page
+      const newGoalBox = document.createElement("div");
+      newGoalBox.classList.add("goal-box");
+      newGoalBox.innerHTML = `
+        <strong>${savedGoal.title}</strong>
+        <i>Deadline: ${new Date(savedGoal.deadline).toDateString()}</i>
+        <button class="delete-goal" data-id="${savedGoal._id}">Delete</button>
+      `;
+      goalListContainer.appendChild(newGoalBox);
+
+      // Clear the form
+      goalForm.reset();
+    } catch (err) {
+      console.error("Error saving goal:", err);
+    }
+
+
+  goalListContainer.addEventListener("click", async (e) => {
+  const goalId = e.target.dataset.id;
+
+  // DELETE
+  if (e.target.classList.contains("delete-goal")) {
+    const confirmed = confirm("Are you sure you want to delete this goal?");
+    if (!confirmed) return ('/dashboard');
+
+    await fetch(`/goals/${goalId}`, { method: "DELETE" });
+    e.target.closest(".goal-box").remove();
+     }
+
+    });
+
+   });
+  
+          // Close modal when clicking outside of it
+          window.addEventListener("click", function (event) {
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+          });
+</script>
+
+<%- include('partials/footer') %>
+
