@@ -9,3 +9,6 @@ node_modules/
 
 # Log files
 npm-debug.log
+
+# Ignore firebase-key.json
+firebase-key.json
