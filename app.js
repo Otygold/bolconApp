@@ -204,6 +204,8 @@ app.post("/save-token", authMiddleware, async (req, res) => {
     }
   });
 
+
+
 // Firebase Admin SDK Initialization
 admin.initializeApp({
   credential: admin.credential.cert({
